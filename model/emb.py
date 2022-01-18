@@ -31,7 +31,7 @@ class Glove:
             if not os.path.isfile(os.path.join(glove_dir, f"glove.6B.{embedding_dim}d.txt")):
                 if glove_zip_file_path == None:  # check if glove zip file exists
                     print(".zip file does not exist. start downloading .zip file...")
-                    glove_zip_save_path = "./" if glove_zip_save_path == None else glove_zip_save_path
+                    self.glove_zip_save_path = "./" if glove_zip_save_path == None else glove_zip_save_path
                     self.download_glove_txt()
                     print("download finished.")
 
@@ -57,6 +57,7 @@ class Glove:
         url = "https://huggingface.co/stanfordnlp/glove/resolve/main/glove.6B.zip"
         file_name = url.split("/")[-1]
         wget.download(url, os.path.join(self.glove_zip_save_path, file_name))
+        self.glove_zip_file_path = os.path.join(self.glove_zip_save_path, file_name)
 
     def unzip_glove_zip(self):
         """
@@ -149,7 +150,7 @@ class Glove:
             return vocab
 
 
-glove = Glove()
+# glove = Glove()
 
 
 def WordEmb():
@@ -161,4 +162,4 @@ def WordEmb():
 if __name__ == "__main__":
     # download_glove_txt(".")
     glove = Glove(
-        glove_dir="/Users/chaehyeongju/Documents/BiDAF/glove", embedding_dim=300)
+        glove_dir="/mnt/c/Users/mapoo/Documents/BiDAF_torch/glove", embedding_dim=300, glove_zip_save_path="./")
