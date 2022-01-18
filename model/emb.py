@@ -5,11 +5,20 @@ from tqdm import tqdm
 import numpy as np
 import pickle
 import torch
+import torch.nn as nn
 from torchtext.vocab import build_vocab_from_iterator
 
 
 class Glove:
     def __init__(self, glove_dir, embedding_dim=300, glove_zip_file_path=None, glove_zip_save_path=None):
+        """[summary]
+
+        Args:
+            glove_dir ([type]): [description]
+            embedding_dim (int, optional): [description]. Defaults to 300.
+            glove_zip_file_path ([type], optional): [description]. Defaults to None.
+            glove_zip_save_path ([type], optional): [description]. Defaults to None.
+        """
         self.glove_zip_file_path = glove_zip_file_path
         self.glove_dir = glove_dir
         self.embedding_dim = embedding_dim
@@ -81,6 +90,15 @@ class Glove:
         return embedding_dict
 
     def make_vocab_from_glove_dict_and_save_as_pickle(self, glove_dict):
+        """
+        make torchtext.vocab from glove embedding dictionary and save it as pikle file
+
+        Args:
+            glove_dict (dict): key(token), value(embedding vector, np.array)  
+
+        Returns:
+            vocab : torchtext.vocav object. it will be used when making embedding matrix
+        """
         word_list = [glove_dict.keys()]
         vocab = build_vocab_from_iterator(word_list)
 
@@ -90,6 +108,15 @@ class Glove:
         return vocab
 
     def make_embedding_matrix_and_save_as_pickle(self, glove_dict, vocab):
+        """
+        make embedding matrix with glove dict and vocab in np.array type and save it as pickle file
+        Args:
+            glove_dict (dict): key(token), value(embedding vector, np.array) 
+            vocab (torchtext.vocab): contains vocab made with glove dict
+
+        Returns:
+            embedding matrix: list of numpy array, contains embedding vectors
+        """
         embedding_matrix = []
         itos = vocab.get_itos()
         print("started to make an embedding matrix")
@@ -120,6 +147,15 @@ class Glove:
             vocab = pickle.load(f)
             print("vocab is loaded successfully!")
             return vocab
+
+
+glove = Glove()
+
+
+def WordEmb():
+    glove_embedding = nn.Embedding.from_pretrained(
+        glove.embedding_matrix, freeze=True)
+    return glove_embedding
 
 
 if __name__ == "__main__":
