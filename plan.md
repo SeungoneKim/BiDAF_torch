@@ -1,4 +1,4 @@
-<Model>
+<Model><br>
 
 1. Character Embedding Layer maps each word to a vector space using character-level
    CNNs.
