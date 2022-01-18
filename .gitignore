@@ -1,3 +1,5 @@
 glove/*
 *.txt
 *.zip
+*.pkl
+test/*
