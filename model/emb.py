@@ -156,4 +156,8 @@ def WordEmb():
 if __name__ == "__main__":
     # download_glove_txt(".")
     glove = Glove(
+<<<<<<< HEAD
         glove_dir="./glove", embedding_dim=300, glove_zip_save_path="./")
+=======
+        glove_dir="/mnt/c/Users/mapoo/Documents/BiDAF_torch/glove", embedding_dim=300, glove_zip_save_path="./")
+>>>>>>> 45b75c94fee95ecc1417cd3bfdb29f6239a57bbe
