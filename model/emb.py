@@ -12,7 +12,6 @@ from torchtext.vocab import build_vocab_from_iterator
 class Glove:
     def __init__(self, glove_dir, embedding_dim=300, glove_zip_file_path=None, glove_zip_save_path=None):
         """[summary]
-
         Args:
             glove_dir ([type]): [description]
             embedding_dim (int, optional): [description]. Defaults to 300.
@@ -31,7 +30,7 @@ class Glove:
             if not os.path.isfile(os.path.join(glove_dir, f"glove.6B.{embedding_dim}d.txt")):
                 if glove_zip_file_path == None:  # check if glove zip file exists
                     print(".zip file does not exist. start downloading .zip file...")
-                    glove_zip_save_path = "./" if glove_zip_save_path == None else glove_zip_save_path
+                    self.glove_zip_save_path = "./" if glove_zip_save_path == None else glove_zip_save_path
                     self.download_glove_txt()
                     print("download finished.")
 
@@ -57,11 +56,11 @@ class Glove:
         url = "https://huggingface.co/stanfordnlp/glove/resolve/main/glove.6B.zip"
         file_name = url.split("/")[-1]
         wget.download(url, os.path.join(self.glove_zip_save_path, file_name))
+        self.glove_zip_file_path = os.path.join(self.glove_zip_save_path, file_name)
 
     def unzip_glove_zip(self):
         """
         unzip downloaded glove6B.zip file
-
         Args:
             glove_zip_file_path (str): path of the glove zip file
             save_path (str): the directory of where extracted files to be saved
@@ -72,7 +71,6 @@ class Glove:
     def load_glove_dict_from_txt(self):
         """
         load glove embedding dictionary from the .txt file
-
         Args:
             glove_dir (string): the path of glove directory
             embedding_dim (int, optional): glove embedding dimension. [50, 100, 200, 300] Defaults to 300.
@@ -92,10 +90,8 @@ class Glove:
     def make_vocab_from_glove_dict_and_save_as_pickle(self, glove_dict):
         """
         make torchtext.vocab from glove embedding dictionary and save it as pikle file
-
         Args:
             glove_dict (dict): key(token), value(embedding vector, np.array)  
-
         Returns:
             vocab : torchtext.vocav object. it will be used when making embedding matrix
         """
@@ -113,7 +109,6 @@ class Glove:
         Args:
             glove_dict (dict): key(token), value(embedding vector, np.array) 
             vocab (torchtext.vocab): contains vocab made with glove dict
-
         Returns:
             embedding matrix: list of numpy array, contains embedding vectors
         """
@@ -149,7 +144,7 @@ class Glove:
             return vocab
 
 
-glove = Glove()
+# glove = Glove()
 
 
 def WordEmb():
@@ -161,4 +156,4 @@ def WordEmb():
 if __name__ == "__main__":
     # download_glove_txt(".")
     glove = Glove(
-        glove_dir="/Users/chaehyeongju/Documents/BiDAF/glove", embedding_dim=300)
+        glove_dir="./glove", embedding_dim=300, glove_zip_save_path="./")

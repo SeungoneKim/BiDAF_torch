@@ -3,3 +3,4 @@ glove/*
 *.zip
 *.pkl
 test/*
+*.ipynb
