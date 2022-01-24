@@ -4,3 +4,4 @@ glove/*
 *.pkl
 test/*
 *.ipynb
+config.json
