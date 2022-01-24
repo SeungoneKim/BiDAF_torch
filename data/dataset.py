@@ -29,23 +29,34 @@ class SQuAD_Dataset(Dataset):
         answer_start_index = answer['answer_start'][0]
         answer_end_index = answer['answer_start'][0] + len(answer['text'])-1
 
+        # Input for word embedding
         encoded_question = self.tokenizer.tokenize(question,self.truncate)
         encoded_context = self.tokenizer.tokenize(context,self.truncate)
 
+        # Input for character embedding
+        encoded_character_question = self.tokenizer.tokenize_char(question)
+        encoded_character_context = self.tokenizer.tokenize_char(context)
+
+        # transform into Torch Tensor
         item = {}
-        item['question']= encoded_question
-        item['context']= encoded_context
-        item['answer']= (answer_start_index, answer_end_index)
+        item['question']= torch.Tensor(encoded_question).to(torch.long)
+        item['context']= torch.Tensor(encoded_context).to(torch.long)
+        item['character_question'] = torch.Tensor(encoded_character_question[0]).to(torch.long)
+        item['character_question_wordidx'] = torch.Tensor(encoded_character_question[1]).to(torch.long)
+        item['character_context'] = torch.Tensor(encoded_character_context[0]).to(torch.long)
+        item['character_context_wordidx'] = torch.Tensor(encoded_character_context[1]).to(torch.long)
+        item['start_answer']= torch.Tensor([answer_start_index]).to(torch.long)
+        item['end_answer']=torch.Tensor([answer_end_index]).to(torch.long)
 
         return item
 
 class SQuAD_Dataset_Total():
     def __init__(self,max_len=128,truncate=False):
-        self.train_dataset = SQuAD_Dataset('train',max_len,truncate)
-        train_len = len(self.train_dataset)*0.9
-        val_len = len(self.train_dataset)-train_len
-        self.train_dataset, self.validation_dataset = torch.utils.data.random_split(self.train_dataset,
-            [train_len,val_len]
+        self.total_dataset = SQuAD_Dataset('train',max_len,truncate)
+        train_len = int(len(self.total_dataset)*0.9)
+        val_len = len(self.total_dataset)-train_len
+        self.train_dataset, self.validation_dataset = torch.utils.data.random_split(self.total_dataset,
+            [train_len, val_len],
         )
         self.test_dataset = SQuAD_Dataset('validation',max_len,truncate)
 
@@ -57,3 +68,13 @@ class SQuAD_Dataset_Total():
     
     def getTestData(self):
         return self.test_dataset
+
+if __name__ == "__main__":
+    total_ds = SQuAD_Dataset_Total(128,False)
+    train_ds, val_ds, test_ds = total_ds.getTrainData(), total_ds.getValData(), total_ds.getTestData()
+
+    print(train_ds[0])
+    print()
+    print(val_ds[0])
+    print()
+    print(test_ds[0])

@@ -156,8 +156,27 @@ def WordEmb():
 if __name__ == "__main__":
     # download_glove_txt(".")
     glove = Glove(
-<<<<<<< HEAD
-        glove_dir="./glove", embedding_dim=300, glove_zip_save_path="./")
-=======
         glove_dir="/mnt/c/Users/mapoo/Documents/BiDAF_torch/glove", embedding_dim=300, glove_zip_save_path="./")
->>>>>>> 45b75c94fee95ecc1417cd3bfdb29f6239a57bbe
+    
+class CharEmb(nn.Embedding):
+    def __init__(self, emb_dim=100):
+        super(CharEmb, self).__init__(num_embeddings=72, embedding_dim=emb_dim)
+
+class CNN_CharEmb(nn.Module):
+    def __init__(self, model_dim=300):
+        super(CNN_CharEmb, self).__init__()
+        
+        self.char_emb = CharEmb(emb_dim=100)
+        self.cnn = nn.Conv1d(100,300,1,1,0)
+
+    def forward(self, x):
+        
+        output = self.char_emb(x).permute(0,2,1)
+        output = self.cnn(output).permute(0,2,1)
+        
+        # (Batch_Size, Character_Sequence_Length, Hidden_size)
+        return output
+
+
+
+        
