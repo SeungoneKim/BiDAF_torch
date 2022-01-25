@@ -16,7 +16,7 @@ class Tokenizer():
         self.characterDictionary = {}
         for idx,char in enumerate(self.characterset):
             self.characterDictionary[char]=idx
-        self.characterDictionary["<unk>"]=70
+        self.characterDictionary["<unk>"]=69
 
 
     # input = "Which laws faced significant opposition?"
@@ -58,7 +58,7 @@ class Tokenizer():
             if x!=36:
                 which_word.append(word_idx)
             else:
-                which_word.append(-1)
+                which_word.append(0) # (THIS SERVES as a special token to identify that ' ' exists between words)
                 word_idx+=1
 
         return encoded_input, which_word

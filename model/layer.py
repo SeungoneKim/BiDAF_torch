@@ -29,9 +29,6 @@ class HighwayNetwork(nn.Module):
             x = t * h + (1-t) * g
 
         return x
-<<<<<<< HEAD
 
     
     
-=======
->>>>>>> b62b1e8136da0852c7e450bf6e4a43a276b3cf31
