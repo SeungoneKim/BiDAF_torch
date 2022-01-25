@@ -1,13 +1,13 @@
 ## Model
 <br>
-1. <s>Character Embedding Layer maps each word to a vector space using character-level CNNs.</s>
-2. <s>Word Embedding Layer maps each word to a vector space using a pre-trained word embedding model.</s>
+1. <s>Character Embedding Layer maps each word to a vector space using character-level CNNs.</s> <br>
+2. <s>Word Embedding Layer maps each word to a vector space using a pre-trained word embedding model.</s> <br>
 3. Contextual Embedding Layer utilizes contextual cues from surrounding words to refinethe embedding of the words. <br>
-   These first three layers are applied to both the query and context.
-4. Attention Flow Layer couples the query and context vectors and produces a set of queryaware feature vectors for each word in the context.
-5. Modeling Layer employs a Recurrent Neural Network to scan the context.
-6. Output Layer provides an answer to the query
-7. Apply Changes for CNNDM
+   These first three layers are applied to both the query and context. <br>
+4. Attention Flow Layer couples the query and context vectors and produces a set of queryaware feature vectors for each word in the context. <br>
+5. Modeling Layer employs a Recurrent Neural Network to scan the context. <br>
+6. Output Layer provides an answer to the query <br>
+7. Apply Changes for CNNDM <br>
 <br>
 Seungone : 1, 5, 6, 4(Q2C) <br>
 Hyungjoo : 2, 3, 4(C2Q) + Highway Network <br>
