@@ -41,6 +41,7 @@ class Glove:
 
             self.vocab = self.make_vocab_from_glove_dict_and_save_as_pickle(
                 glove_dict)
+
             self.embedding_matrix = self.make_embedding_matrix_and_save_as_pickle(
                 glove_dict, self.vocab)
 
@@ -97,7 +98,8 @@ class Glove:
             vocab : torchtext.vocav object. it will be used when making embedding matrix
         """
         word_list = [glove_dict.keys()]
-        vocab = build_vocab_from_iterator(word_list)
+        # ADD PAD Token(400001)
+        vocab = build_vocab_from_iterator(word_list, specials=["<pad>"])
 
         with open(os.path.join(self.glove_dir, f"glove.6B.{self.embedding_dim}d_vocab.pkl"), "wb") as f:
             pickle.dump(vocab, f)
